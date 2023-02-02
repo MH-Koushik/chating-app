@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 
 const UserList = () => {
     
-    let[userList,setUserList]=useState([])
+    let[userList, setUserList]=useState([])
+    let[friendRequestList, setFriendRequestList]=useState([])
     const db = getDatabase();
     let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
     
@@ -24,12 +25,25 @@ const UserList = () => {
 
     let handleFriendRequest=(item)=>{
         set(push(ref(db, 'friendRequest')), {
-            receiverName: userdata.displayName,
-            receiverID: userdata.uid,
-            senderName: item.username,
-            senderID: item.userId,
+            receiverName: item.username,
+            receiverID: item.userId,
+            senderName: userdata.displayName,
+            senderID: userdata.uid,
+            photoURL: userdata.photoURL,
           });
     }
+
+    useEffect(()=>{
+        const userRef = ref(db, 'friendRequest');
+        onValue(userRef, (snapshot) => {
+            let friendRequestarr=[]
+            snapshot.forEach((item)=>{
+                friendRequestarr.push(item.val().receiverID + item.val().senderID);
+            })
+            setFriendRequestList(friendRequestarr);
+        });
+    },[userdata])
+
 
   return (
     <div className=' relative mt-[10px] w-full h-[447px] px-5 py-3.5 bg-white rounded-[20px] drop-shadow-lg '>
@@ -48,7 +62,10 @@ const UserList = () => {
                 <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{item.email}</p>
             </div>
             <div className='flex justify-end w-[30%]'>
-                <button onClick={()=>handleFriendRequest(item)} className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Add Friend</button> 
+                {friendRequestList.includes(item.userId+userdata.uid) || friendRequestList.includes(userdata.uid+item.userId) ? <button className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Pending</button> 
+                : 
+                <button onClick={()=>handleFriendRequest(item)} className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Add Friend</button> }
+                
             </div>
         </div> 
         ))}

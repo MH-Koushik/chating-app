@@ -157,7 +157,7 @@ const Sidebar = () => {
 
             <div className='overflow-hidden'>
               <input onChange={handleImageUpload} className='mt-4 mb-4' type="file"/>
-              {uploadErr&& (<p className=' text-center text-nunito font-semibold bg-red-500 w-[368px] py-1.5 rounded text-white pl-1'>{uploadErr}</p>)}
+              {uploadErr && (<p className=' text-center text-nunito font-semibold bg-red-500 w-[368px] py-1.5 rounded text-white pl-1'>{uploadErr}</p>)}
               {image && (<Cropper
                             style={{ height: 400, width: "100%" }}
                             zoomTo={0.5}
