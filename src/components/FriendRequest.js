@@ -14,7 +14,7 @@ const FriendRequest = () => {
             let friendRequestarr=[]
             snapshot.forEach((item)=>{
                 if(userdata.uid==item.val().receiverID){
-                    friendRequestarr.push({...item.val(), requestId: item.key });
+                    friendRequestarr.push({...item.val(), friendRequestKey: item.key });
                 }
                 
             })
@@ -27,12 +27,12 @@ const FriendRequest = () => {
         set(push(ref(db, 'friends')), {
             ...item,
           }).then(()=>{
-            remove( ref(db, 'friendRequest/'+item.requestId) )
+            remove( ref(db, 'friendRequest/'+item.friendRequestKey) )
           })
     }
 
     let handleFriendReject=(item)=>{
-            remove( ref(db, 'friendRequest/'+item.requestId) )
+            remove( ref(db, 'friendRequest/'+item.friendRequestKey) )
     }
 
 

@@ -15,7 +15,7 @@ const Friend = () => {
             let friendsarr=[]
             snapshot.forEach((item)=>{
                 if(userdata.uid==item.val().receiverID || userdata.uid==item.val().senderID){
-                    friendsarr.push({...item.val(), friendId: item.key });
+                    friendsarr.push({...item.val(), friendKey: item.key });
                 }
                 
             })
@@ -31,7 +31,29 @@ const Friend = () => {
 
 
     let handleBlock=(item)=>{
-        
+        if(userdata.uid==item.senderID){
+            set(push(ref(db, 'block')), {
+                blockID: item.receiverID,
+                blockName: item.receiverName,
+                blockMail: item.receiverMail,
+                blockPhoto:item.receiverPhotoURL,
+                blockbyID: item.senderID,
+                blockbyName: item.senderName,
+              }).then(()=>{
+                remove(ref(db, 'friends/' + item.friendKey))
+              })
+        } else{
+            set(push(ref(db, 'block')), {
+                blockID: item.senderID,
+                blockName: item.senderName,
+                blockMail: item.senderMail,
+                blockPhoto: item.senderPhotoURL,
+                blockbyID: item.receiverID,
+                blockbyName: item.receiverName,
+              }).then(()=>{
+                remove(ref(db, 'friends/' + item.friendKey))
+              })
+        }
     }
 
 
@@ -61,8 +83,8 @@ const Friend = () => {
         </div>
         <div className='flex justify-end w-[30%]'>
         <div className='text-center'>
-        <button onClick={()=>handleUnFriend(item.friendId)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
-        <button onClick={()=>handleBlock(item.friendId)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
+        <button onClick={()=>handleUnFriend(item.friendKey)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
+        <button onClick={()=>handleBlock(item)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
         </div>
         </div>
     </div> )

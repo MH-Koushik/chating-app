@@ -8,6 +8,7 @@ const UserList = () => {
     let[userList, setUserList]=useState([])
     let[friendRequestList, setFriendRequestList]=useState([])
     let[friendsList, setFriendsList]=useState([])
+    let[blockList, setBlockList]=useState([])
     const db = getDatabase();
     let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
     
@@ -59,6 +60,17 @@ const UserList = () => {
         });
     },[userdata])
 
+    useEffect(()=>{
+        const userRef = ref(db, 'block');
+        onValue(userRef, (snapshot) => {
+            let blockarr=[]
+            snapshot.forEach((item)=>{
+                blockarr.push(item.val().blockID + item.val().blockbyID);
+            })
+            setBlockList(blockarr);
+        });
+    },[userdata])
+
     
 
 
@@ -85,7 +97,8 @@ const UserList = () => {
                 {friendsList.includes(item.userId+userdata.uid) || friendsList.includes(userdata.uid+item.userId)? <button className='px-[20px] py-[5px] bg-button font-semibold font-Poppins text-[18px] text-white rounded-[5px]'>Friend</button>
                 : 
                 friendRequestList.includes(item.userId+userdata.uid) || friendRequestList.includes(userdata.uid+item.userId) ? <button className='px-[15px] py-[5px] bg-button font-semibold font-Poppins text-[18px] text-white rounded-[5px]'>Pending</button> 
-                : 
+                : blockList.includes(item.userId+userdata.uid) || blockList.includes(userdata.uid+item.userId) ? <p className=''> </p>
+                :
                 <button onClick={()=>handleFriendRequest(item)} className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Add Friend</button>}
                 
             </div>
