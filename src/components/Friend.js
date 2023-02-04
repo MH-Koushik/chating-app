@@ -25,10 +25,14 @@ const Friend = () => {
     },[userdata])
 
 
+    let handleUnFriend=(item)=>{
+        remove(ref(db, 'friends/'+ item))
+    }
 
 
-
-
+    let handleBlock=(item)=>{
+        
+    }
 
 
 
@@ -56,7 +60,10 @@ const Friend = () => {
             <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{(userdata.uid==item.receiverID) ? item.senderMail : item.receiverMail}</p>
         </div>
         <div className='flex justify-end w-[30%]'>
-        <button className='px-[18px] py-[5px] bg-button font-semibold font-Poppins text-[20px] text-white rounded-[5px]'>Block</button>
+        <div className='text-center'>
+        <button onClick={()=>handleUnFriend(item.friendId)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
+        <button onClick={()=>handleBlock(item.friendId)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
+        </div>
         </div>
     </div> )
         )}
