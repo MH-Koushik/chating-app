@@ -1,6 +1,6 @@
 import {SlOptionsVertical} from 'react-icons/sl'
 import React, { useEffect, useState } from 'react'
-import { getDatabase, ref, onValue,set, push} from "firebase/database";
+import { getDatabase, ref, onValue,set, push, remove} from "firebase/database";
 import { useSelector } from 'react-redux';
 const FriendRequest = () => {
     const db = getDatabase();
@@ -14,7 +14,7 @@ const FriendRequest = () => {
             let friendRequestarr=[]
             snapshot.forEach((item)=>{
                 if(userdata.uid==item.val().receiverID){
-                    friendRequestarr.push({...item.val(), id: userdata.uid});
+                    friendRequestarr.push({...item.val(), id: item.key });
                 }
                 
             })
@@ -22,6 +22,17 @@ const FriendRequest = () => {
         });
 
     },[userdata])
+
+    let handleFriendAccept=(item)=>{
+        set(push(ref(db, 'friends')), {
+            ...item,
+          }).then(()=>{
+            remove( ref(db, 'friendRequest/'+item.id) )
+          })
+    }
+    let handleFriendReject=(item)=>{
+            remove( ref(db, 'friendRequest/'+item.id) )
+    }
 
 
 
@@ -46,8 +57,8 @@ const FriendRequest = () => {
                             <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>Hi Guys, Wassup!</p>
                         </div>
                         <div className='flex justify-end w-[20%]'>
-                            <button className='font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-button rounded-[5px] mr-[5px]'>Accept</button>  
-                            <button className='font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-red-500 rounded-[5px]'>Reject</button>  
+                            <button onClick={()=>handleFriendAccept(item)} className='font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-button rounded-[5px] mr-[5px]'>Accept</button>  
+                            <button onClick={()=>handleFriendReject(item)} className='font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-red-500 rounded-[5px]'>Reject</button>  
                         </div>
                     </div>
         ))}

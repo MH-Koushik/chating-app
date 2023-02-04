@@ -7,6 +7,7 @@ const UserList = () => {
     
     let[userList, setUserList]=useState([])
     let[friendRequestList, setFriendRequestList]=useState([])
+    let[friendsList, setFriendsList]=useState([])
     const db = getDatabase();
     let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
     
@@ -44,6 +45,17 @@ const UserList = () => {
         });
     },[userdata])
 
+    useEffect(()=>{
+        const userRef = ref(db, 'friends');
+        onValue(userRef, (snapshot) => {
+            let friendsarr=[]
+            snapshot.forEach((item)=>{
+                friendsarr.push(item.val().receiverID + item.val().senderID);
+            })
+            setFriendsList(friendsarr);
+        });
+    },[userdata])
+
 
   return (
     <div className=' relative mt-[10px] w-full h-[447px] px-5 py-3.5 bg-white rounded-[20px] drop-shadow-lg '>
@@ -62,9 +74,12 @@ const UserList = () => {
                 <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{item.email}</p>
             </div>
             <div className='flex justify-end w-[30%]'>
-                {friendRequestList.includes(item.userId+userdata.uid) || friendRequestList.includes(userdata.uid+item.userId) ? <button className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Pending</button> 
+                
+                {friendsList.includes(item.userId+userdata.uid) || friendsList.includes(userdata.uid+item.userId)? <button className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Friend</button>
                 : 
-                <button onClick={()=>handleFriendRequest(item)} className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Add Friend</button> }
+                friendRequestList.includes(item.userId+userdata.uid) || friendRequestList.includes(userdata.uid+item.userId) ? <button className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Pending</button> 
+                : 
+                <button onClick={()=>handleFriendRequest(item)} className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Add Friend</button>}
                 
             </div>
         </div> 
