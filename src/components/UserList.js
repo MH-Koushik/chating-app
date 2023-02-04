@@ -27,10 +27,13 @@ const UserList = () => {
     let handleFriendRequest=(item)=>{
         set(push(ref(db, 'friendRequest')), {
             receiverName: item.username,
-            receiverID: item.userId,
             senderName: userdata.displayName,
+            receiverID: item.userId,
             senderID: userdata.uid,
-            photoURL: userdata.photoURL,
+            senderPhotoURL: userdata.photoURL,
+            receiverPhotoURL: item.photoURL,
+            senderMail: userdata.email,
+            receiverMail: item.email,
           });
     }
 
@@ -79,9 +82,9 @@ const UserList = () => {
             </div>
             <div className='flex justify-end w-[30%]'>
                 
-                {friendsList.includes(item.userId+userdata.uid) || friendsList.includes(userdata.uid+item.userId)? <button className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Friend</button>
+                {friendsList.includes(item.userId+userdata.uid) || friendsList.includes(userdata.uid+item.userId)? <button className='px-[20px] py-[5px] bg-button font-semibold font-Poppins text-[18px] text-white rounded-[5px]'>Friend</button>
                 : 
-                friendRequestList.includes(item.userId+userdata.uid) || friendRequestList.includes(userdata.uid+item.userId) ? <button className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Pending</button> 
+                friendRequestList.includes(item.userId+userdata.uid) || friendRequestList.includes(userdata.uid+item.userId) ? <button className='px-[15px] py-[5px] bg-button font-semibold font-Poppins text-[18px] text-white rounded-[5px]'>Pending</button> 
                 : 
                 <button onClick={()=>handleFriendRequest(item)} className='px-[8px] py-[5px] bg-button font-semibold font-Poppins text-[16px] text-white rounded-[5px]'>Add Friend</button>}
                 

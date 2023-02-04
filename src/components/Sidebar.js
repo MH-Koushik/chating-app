@@ -4,7 +4,7 @@ import {FiSettings,FiLogOut} from 'react-icons/fi'
 import {FaCloudUploadAlt} from 'react-icons/fa'
 import {BsChatDotsFill,BsBell} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
-import { getAuth, signOut,updateProfile } from "firebase/auth";
+import { getAuth, signOut,updateProfile,onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoginInfo } from '../slices/userSlice'
 import Cropper from "react-cropper";
@@ -56,7 +56,7 @@ const Sidebar = () => {
         setCropData(cropper.getCroppedCanvas().toDataURL());
         const message4 = cropper.getCroppedCanvas().toDataURL()
         const storageRef = ref(storage, auth.currentUser.uid);
-        uploadString(storageRef, message4, 'data_url').then((snapshot) => {
+        uploadString(storageRef, message4, 'data_url').then(() => {
           getDownloadURL(storageRef).then((downloadURL) => {
               updateProfile(auth.currentUser, { 
                 photoURL: downloadURL,
@@ -87,6 +87,13 @@ const Sidebar = () => {
     }
  
   };
+
+useEffect(()=>{
+  onAuthStateChanged(auth, (data)=>{
+    dispatch(userLoginInfo(data))
+    localStorage.setItem("userInfo", JSON.stringify(data))
+  })
+},[])
 
 
 

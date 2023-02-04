@@ -14,7 +14,7 @@ const FriendRequest = () => {
             let friendRequestarr=[]
             snapshot.forEach((item)=>{
                 if(userdata.uid==item.val().receiverID){
-                    friendRequestarr.push({...item.val(), id: item.key });
+                    friendRequestarr.push({...item.val(), requestId: item.key });
                 }
                 
             })
@@ -27,11 +27,12 @@ const FriendRequest = () => {
         set(push(ref(db, 'friends')), {
             ...item,
           }).then(()=>{
-            remove( ref(db, 'friendRequest/'+item.id) )
+            remove( ref(db, 'friendRequest/'+item.requestId) )
           })
     }
+
     let handleFriendReject=(item)=>{
-            remove( ref(db, 'friendRequest/'+item.id) )
+            remove( ref(db, 'friendRequest/'+item.requestId) )
     }
 
 
@@ -50,11 +51,11 @@ const FriendRequest = () => {
         {friendRequest.map((item)=>(
                     <div className='flex items-center gap-x-3.5 w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
                         <div className='w-[20%]'>
-                            <img src={item.photoURL} className='rounded-full w-[70px] h-[70px]'/>
+                            <img src={item.senderPhotoURL} className='rounded-full w-[70px] h-[70px]'/>
                         </div>
                         <div className='w-[60%]'>
                             <h3 className='font-Poppins font-semibold text-lg'>{item.senderName}</h3>
-                            <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>Hi Guys, Wassup!</p>
+                            <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{item.senderMail}</p>
                         </div>
                         <div className='flex justify-end w-[20%]'>
                             <button onClick={()=>handleFriendAccept(item)} className='font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-button rounded-[5px] mr-[5px]'>Accept</button>  
