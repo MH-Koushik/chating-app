@@ -5,8 +5,8 @@ import {SlOptionsVertical} from 'react-icons/sl'
 
 const BlockedUser = () => {
 
-    let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
-    const db = getDatabase()
+    let userdata=useSelector((state)=>state.userLoginInfo.userInfo);
+    const db = getDatabase();
     let [blockList, setBlockList]= useState([]);
 
     useEffect(()=>{
@@ -17,7 +17,6 @@ const BlockedUser = () => {
                 if(userdata.uid==item.val().blockbyID){
                     blockarr.push({...item.val(), blockKey: item.key });
                 }
-                
             })
             setBlockList(blockarr);
         });
@@ -26,7 +25,7 @@ const BlockedUser = () => {
 
 
     let handleUnBlock=(item)=>{
-        remove(ref(db, 'block/'+item.blockKey));
+        remove(ref(db, 'block/'+item));
     }
 
 
@@ -55,7 +54,7 @@ const BlockedUser = () => {
                      <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{item.blockMail}</p>
                  </div>
                  <div className='flex justify-end w-[30%]'>
-                     <button onClick={()=>handleUnBlock(item)} className='px-[9px] py-[5px] bg-button font-semibold font-Poppins text-[20px] text-white rounded-[5px]'>UnBlock</button> 
+                     <button onClick={()=>handleUnBlock(item.blockKey)} className='px-[9px] py-[5px] bg-button font-semibold font-Poppins text-[20px] text-white rounded-[5px]'>UnBlock</button> 
                  </div>
              </div> 
             ))}     
