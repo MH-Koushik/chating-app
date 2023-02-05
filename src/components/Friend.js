@@ -29,7 +29,7 @@ const Friend = () => {
         remove(ref(db, 'friends/'+ item))
     }
 
-
+    // Blocking an user
     let handleBlock=(item)=>{
         if(userdata.uid==item.senderID){
             set(push(ref(db, 'block')), {
@@ -74,20 +74,20 @@ const Friend = () => {
 
         {friendslist.map((item)=>(
         <div className='flex items-center gap-x-3.5 w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
-        <div className='w-[20%]'>
-            <img src={(userdata.uid==item.receiverID)? item.senderPhotoURL : item.receiverPhotoURL} className='rounded-full w-[70px] h-[70px]'/>
-        </div>
-        <div className='w-[50%]'>
-            <h3 className='font-Poppins font-semibold text-lg'>{item.senderName}</h3>
-            <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{(userdata.uid==item.receiverID) ? item.senderMail : item.receiverMail}</p>
-        </div>
-        <div className='flex justify-end w-[30%]'>
-        <div className='text-center'>
-        <button onClick={()=>handleUnFriend(item.friendKey)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
-        <button onClick={()=>handleBlock(item)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
-        </div>
-        </div>
-    </div> )
+            <div className='w-[20%]'>
+                <img src={(userdata.uid==item.receiverID)? item.senderPhotoURL : item.receiverPhotoURL} className='rounded-full w-[70px] h-[70px]'/>
+            </div>
+            <div className='w-[50%]'>
+                <h3 className='font-Poppins font-semibold text-lg'>{(userdata.uid==item.receiverID)?item.senderName : item.receiverName}</h3>
+                <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{(userdata.uid==item.receiverID) ? item.senderMail : item.receiverMail}</p>
+            </div>
+            <div className='flex justify-end w-[30%]'>
+            <div className='text-center'>
+            <button onClick={()=>handleUnFriend(item.friendKey)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
+            <button onClick={()=>handleBlock(item)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
+            </div>
+            </div>
+        </div> )
         )}
 
 

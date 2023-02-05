@@ -7,7 +7,7 @@ const FriendRequest = () => {
     let [friendRequest, setFriendRequest] = useState([]);
     let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
     
-
+    // Reading Friend Request from Database
     useEffect(()=>{
         const userRef = ref(db, 'friendRequest');
         onValue(userRef, (snapshot) => {
@@ -23,6 +23,7 @@ const FriendRequest = () => {
 
     },[userdata])
 
+    // Accepting Friend Request
     let handleFriendAccept=(item)=>{
         set(push(ref(db, 'friends')), {
             ...item,
@@ -30,7 +31,7 @@ const FriendRequest = () => {
             remove( ref(db, 'friendRequest/'+item.friendRequestKey) )
           })
     }
-
+    // Rejecting Friend Request
     let handleFriendReject=(item)=>{
             remove( ref(db, 'friendRequest/'+item.friendRequestKey) )
     }
