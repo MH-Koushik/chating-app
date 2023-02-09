@@ -9,6 +9,7 @@ import MyGroups from '../../components/MyGroups';
 import Search from '../../components/Search';
 import Sidebar from '../../components/Sidebar';
 import UserList from '../../components/UserList';
+import CreateGroup from '../../components/CreatGroup';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { userLoginInfo } from '../../slices/userSlice';
 const Home = ()=>{
@@ -38,6 +39,7 @@ const Home = ()=>{
     {data&&
         <div className='flex w-full'>
           <Sidebar/>
+          {/* <CreateGroup/> */}
           {verified?
             <>
               <div className='flex w-full justify-evenly bg-white'>
