@@ -1,14 +1,18 @@
 import React from 'react'
-import {SlOptionsVertical} from 'react-icons/sl'
+import { useSelector, useDispatch } from 'react-redux';
+import { showGroupCreate } from '../slices/creatGroupSlice';
 
 const GroupList = () => {
-
-
+    let dispatch=useDispatch();
+    let showCreateGroup = useSelector((state)=>state.creatGroupShow.showCreateGroup);
+    let handleCreatGroup=()=>{
+        dispatch(showGroupCreate(true))
+    }
  
   return (
     <div className=' relative mt-[43px] w-full h-[347px] px-5 py-3.5 bg-white rounded-[20px] drop-shadow-lg '>
         <p className='font-Poppins font-semibold text-xl mb-4'>GroupList</p>
-        <SlOptionsVertical className='absolute top-[20px] right-[20px] text-[19px] text-button cursor-pointer'/>
+        <button onClick={handleCreatGroup} className=' absolute top-[20px] right-[40px] text-[19px] text-button font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-button rounded-[5px]'>Creat Group</button>
 
         <div className='overflow-y-auto h-[276px] scroll-smooth'>
 

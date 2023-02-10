@@ -7,7 +7,7 @@ export const CreateGroupSLice = createSlice({
   },
   reducers: {
     showGroupCreate: (state , action) => {
-      state.showCreateGroup = action.payload
+      state.showCreateGroup = action.payload;
     },
   },
 })
