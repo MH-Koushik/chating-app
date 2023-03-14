@@ -18,7 +18,7 @@ const GroupList = () => {
 
             <div className='flex items-center w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
                 <div className='w-[20%]'>
-                    <img src='./images/demoImg.png' className='rounded-full w-[70px] h-[70px]'/>
+                    <img src='./images/groupPhoto.png' className='rounded-full w-[70px] h-[70px]'/>
                 </div>
                 <div className='w-[60%] ml-[14px]'>
                     <h3 className='font-Poppins font-semibold text-lg'>Friends Reunion</h3>

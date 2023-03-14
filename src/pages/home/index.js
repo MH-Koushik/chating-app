@@ -26,6 +26,7 @@ const Home = ()=>{
     localStorage.setItem("userInfo", JSON.stringify(data))
   })
 
+  let showCreateGroup= useSelector((state)=>state.creatGroupShow.showCreateGroup)
   
   
   let data = useSelector((state)=>state.userLoginInfo.userInfo)
@@ -39,7 +40,9 @@ const Home = ()=>{
     {data&&
         <div className='flex w-full'>
           <Sidebar/>
-          {/* <CreateGroup/> */}
+          
+          {showCreateGroup && <CreateGroup/>}
+
           {verified?
             <>
               <div className='flex w-full justify-evenly bg-white'>
