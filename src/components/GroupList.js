@@ -31,7 +31,7 @@ const GroupList = () => {
  
   return (
     <div className=' relative mt-[43px] w-full h-[347px] px-5 py-3.5 bg-white rounded-[20px] drop-shadow-lg '>
-        <p className='font-Poppins font-semibold text-xl mb-4'>GroupList</p>
+        <p className='font-Poppins font-semibold text-xl mb-4'>Available Groups</p>
         <button onClick={handleCreatGroup} className=' absolute top-[20px] right-[40px] text-[19px] text-button font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-button rounded-[5px]'>Creat Group</button>
 
         <div className='overflow-y-auto h-[276px] scroll-smooth'>
@@ -55,7 +55,7 @@ const GroupList = () => {
             </div>
             <div className='flex justify-end w-[30%]'>
                 <div className='text-center'>
-                <button className='px-[22px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
+                <button className='px-[22px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Join</button>
                     
                 </div>
             </div>
