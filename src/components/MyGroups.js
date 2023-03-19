@@ -62,7 +62,11 @@ const MyGroups = () => {
             <div className='flex justify-end w-[30%]'>
                 <div className='text-center'>
                     <button  className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Add Member</button>
-                    {userdata.uid==item.adminId? <button onClick={()=>handleGroupDelete(item.groupKey)} className='px-[10px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Delete Group</button>
+                    {userdata.uid==item.adminId?
+                    <div> 
+                    <button  className='px-[29px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Request</button>
+                    <button onClick={()=>handleGroupDelete(item.groupKey)} className='px-[10px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Delete Group</button>
+                    </div>
                         :
                     <button  className='px-[19px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Leave</button>
                     }
