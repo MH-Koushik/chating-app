@@ -164,7 +164,7 @@ const getCropData = () => {
               <div className='flex justify-center'>
                 <div className='w-2/4'>
                   <h3 className='text-nunito text-heading text-3xl font-bold mb-[15px]'>Enter Group Name</h3>
-                  <input onChange={(e)=>handleinput(e.target.value)} className='w-full border-2 border-solid border-secondary py-4 px-4  rounded-lg' type='text'/>
+                  <input onChange={(e)=>handleinput(e.target.value)} className='w-full border-2 border-solid border-secondary py-4 px-4  rounded-lg' type='text' value={groupName}/>
                   {groupNameError && (<p className='text-nunito font-semibold bg-red-500 w-full py-1.5 rounded text-white'>{groupNameError}</p>)}
                 </div>
               </div>

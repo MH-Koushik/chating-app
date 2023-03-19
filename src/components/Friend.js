@@ -72,7 +72,14 @@ const Friend = () => {
 
     <div className='overflow-y-auto h-[368px] scroll-smooth last:border-0'>
 
-        {friendslist.map((item)=>(
+        {friendslist.length==0?
+                <div className='h-full flex justify-center items-center'>
+                    <div>
+                        <h3 className='font-Poppins font-semibold text-2xl'>No Friend Exist</h3>
+                    </div>
+                </div>
+        :
+        (friendslist.map((item)=>(
         <div className='flex items-center gap-x-3.5 w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
             <div className='w-[20%]'>
                 <img src={(userdata.uid==item.receiverID)? item.senderPhotoURL : item.receiverPhotoURL} className='rounded-full w-[70px] h-[70px]'/>
@@ -82,13 +89,13 @@ const Friend = () => {
                 <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{(userdata.uid==item.receiverID) ? item.senderMail : item.receiverMail}</p>
             </div>
             <div className='flex justify-end w-[30%]'>
-            <div className='text-center'>
-            <button onClick={()=>handleUnFriend(item.friendKey)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
-            <button onClick={()=>handleBlock(item)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
-            </div>
+                <div className='text-center'>
+                    <button onClick={()=>handleUnFriend(item.friendKey)} className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Unfriend</button>
+                    <button onClick={()=>handleBlock(item)} className='px-[22px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Block</button>
+                </div>
             </div>
         </div> )
-        )}
+        ))}
 
 
 

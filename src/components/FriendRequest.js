@@ -49,7 +49,14 @@ const FriendRequest = () => {
         <SlOptionsVertical className='absolute top-[20px] right-[20px] text-[19px] text-button cursor-pointer'/>
 
         <div className='overflow-y-auto h-[368px] scroll-smooth last:border-0'>
-        {friendRequest.map((item)=>(
+        {friendRequest.length==0?
+                <div className='h-full flex justify-center items-center'>
+                    <div>
+                        <h3 className='font-Poppins font-semibold text-2xl'>No Friend Request Exist</h3>
+                    </div>
+                </div>
+        :
+        (friendRequest.map((item)=>(
                     <div className='flex items-center gap-x-3.5 w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
                         <div className='w-[20%]'>
                             <img src={item.senderPhotoURL} className='rounded-full w-[70px] h-[70px]'/>
@@ -63,7 +70,7 @@ const FriendRequest = () => {
                             <button onClick={()=>handleFriendReject(item)} className='font-Poppins font-semibold text-[15px] text-white py-1.5 px-[10px] bg-red-500 rounded-[5px]'>Reject</button>  
                         </div>
                     </div>
-        ))}
+        )))}
 
         </div>
 
