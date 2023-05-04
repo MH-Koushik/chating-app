@@ -12,6 +12,7 @@ import UserList from '../../components/UserList';
 import CreateGroup from '../../components/CreatGroup';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { userLoginInfo } from '../../slices/userSlice';
+
 const Home = ()=>{
   const auth = getAuth();
   const dispatch=useDispatch();

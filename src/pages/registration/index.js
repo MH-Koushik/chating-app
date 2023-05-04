@@ -128,7 +128,7 @@ const Registration = () => {
                 <div className='mt-[50px] relative w-[368px]'>
                     <p className='text-nunito font-semibold text-inputfont  absolute top-[-13px] left-[37px] bg-white px-[18px]'> Email Address</p>
                     <input onChange={handleemail} className='w-full border-2 border-solid border-secondary py-6 px-14  rounded-lg' type='email' value={email}/>
-                    {emailerr&& (<p className='text-nunito font-semibold bg-red-500 w-[368px] py-1.5 rounded text-white pl-1'>{emailerr}</p>)}
+                    {emailerr && (<p className='text-nunito font-semibold bg-red-500 w-[368px] py-1.5 rounded text-white pl-1'>{emailerr}</p>)}
                 </div>
 
                 <div className='mt-[34px] relative w-[368px]'>

@@ -43,7 +43,7 @@ const UserList = () => {
         onValue(userRef, (snapshot) => {
             let friendRequestarr=[]
             snapshot.forEach((item)=>{
-                friendRequestarr.push(item.val().receiverID + item.val().senderID);
+                friendRequestarr.push(item.val().receiverID + item.val().senderID); //for the button check on userlist
             })
             setFriendRequestList(friendRequestarr);
         });
