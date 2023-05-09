@@ -10,6 +10,7 @@ const GroupList = () => {
     const db = getDatabase()
     let showCreateGroup = useSelector((state)=>state.creatGroupShow.showCreateGroup);
     let [groupList,setGroupList]=useState([])
+    let [groupJoinReqarr,setGroupJoinReqarr]=useState([])
 
     let handleCreatGroup=()=>{
         dispatch(showGroupCreate(true))
@@ -28,7 +29,31 @@ const GroupList = () => {
             setGroupList(grouparr);
         });
     },[])
- 
+
+    let handleJoinRequest=(item)=>{
+        console.log(item)
+        set(push(ref(db, 'GroupJoinRequest')), {
+            senderID: userdata.uid,
+            senderName: userdata.displayName,
+            senderPhotoURL: userdata.photoURL,
+            groupID: item.groupKey,
+            groupAdminID: item.adminId,
+            groupName: item.groupName,
+          });
+    }
+
+    useEffect(()=>{
+        const groupJoinRef = ref(db, 'GroupJoinRequest');
+        onValue(groupJoinRef, (snapshot) => {
+            let groupJoinarr=[]
+            snapshot.forEach((item)=>{ 
+                groupJoinarr.push(item.val().senderID+item.val().groupID);
+            })
+            setGroupJoinReqarr(groupJoinarr);
+        });
+    },[])
+
+
   return (
     <div className=' relative mt-[43px] w-full h-[347px] px-5 py-3.5 bg-white rounded-[20px] drop-shadow-lg '>
         <p className='font-Poppins font-semibold text-xl mb-4'>Available Groups</p>
@@ -55,7 +80,11 @@ const GroupList = () => {
             </div>
             <div className='flex justify-end w-[30%]'>
                 <div className='text-center'>
-                <button className='px-[22px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Join</button>
+                    {groupJoinReqarr.includes(userdata.uid+item.groupKey || item.groupKey+userdata.uid)?
+                        <button  className='px-[22px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>PENDING</button>
+                    :
+                        <button  onClick={()=>handleJoinRequest(item)} className='px-[22px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Join</button>
+                    }
                     
                 </div>
             </div>

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { showGroupCreate } from '../slices/creatGroupSlice';
+import { requestGroupKey, showGroupCreate, showRequestGroup } from '../slices/creatGroupSlice';
 import { getDatabase, ref, onValue,set, push, remove} from "firebase/database";
 import {SlOptionsVertical} from 'react-icons/sl'
 const MyGroups = () => {
 
     let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
     const db = getDatabase()
+    let dispatch = useDispatch();
     let [myGroupList,setMyGroupList]=useState([]);
 
     useEffect(()=>{
@@ -28,8 +29,11 @@ const MyGroups = () => {
         remove(ref(db, 'group/'+e))
     }
 
-
-
+    let handleJoinRequest=(item)=>{
+        dispatch(showRequestGroup(true))
+        dispatch(requestGroupKey(item))
+    }
+    
 
 
 
@@ -64,7 +68,7 @@ const MyGroups = () => {
                     <button  className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Add Member</button>
                     {userdata.uid==item.adminId?
                     <div> 
-                    <button  className='px-[29px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Request</button>
+                    <button onClick={()=>handleJoinRequest(item.groupKey)} className='px-[29px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Request</button>
                     <button onClick={()=>handleGroupDelete(item.groupKey)} className='px-[10px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Delete Group</button>
                     </div>
                         :

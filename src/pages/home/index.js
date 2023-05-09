@@ -12,6 +12,7 @@ import UserList from '../../components/UserList';
 import CreateGroup from '../../components/CreatGroup';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { userLoginInfo } from '../../slices/userSlice';
+import GroupJoinRequest from '../../components/GroupJoinRequest';
 
 const Home = ()=>{
   const auth = getAuth();
@@ -28,6 +29,8 @@ const Home = ()=>{
   })
 
   let showCreateGroup= useSelector((state)=>state.creatGroupShow.showCreateGroup)
+  let showJoinGroupRequest= useSelector((state)=>state.creatGroupShow.showGroupJoinRequest)
+
   
   
   let data = useSelector((state)=>state.userLoginInfo.userInfo)
@@ -36,6 +39,7 @@ const Home = ()=>{
       navigate("/login")
     }
   },[])
+
   return (
     <>
     {data&&
@@ -43,6 +47,7 @@ const Home = ()=>{
           <Sidebar/>
           
           {showCreateGroup && <CreateGroup/>}
+          {showJoinGroupRequest && <GroupJoinRequest/>}
 
           {verified?
             <>
