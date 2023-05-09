@@ -11,14 +11,14 @@ const GroupJoinRequest = () => {
     let [requestList,setRequestList]=useState([])
 
     let GroupKey= useSelector((state)=>state.creatGroupShow.grouprequestKey)
-
+ 
 
     useEffect(()=>{
         const groupJoinRef = ref(db, 'GroupJoinRequest');
         onValue(groupJoinRef, (snapshot) => {
             let groupJoinarr=[]
             snapshot.forEach((item)=>{ 
-                if(item.val().groupID==GroupKey){
+                if(item.val().groupID==GroupKey && userdata.uid==item.val().groupAdminID){
                     groupJoinarr.push({...item.val(), joinRequestKey: item.key});
                 }
             })
@@ -35,7 +35,19 @@ const GroupJoinRequest = () => {
     let handleGroupJoinReject=(item)=>{
         remove(ref(db, 'GroupJoinRequest/'+item))
     }
+    let handleGroupJoin=(item)=>{
+        set(push(ref(db, 'GroupMember')), {
+            groupID: item.groupID,
+            groupName: item.groupName,
+            adminID: item.groupAdminID,
+            memberID: item.senderID,
+            memberName: item.senderName,
+            memberPhotoURL: item.senderPhotoURL,
+          }).then(()=>{
+            remove(ref(db, 'GroupJoinRequest/'+item.joinRequestKey))
+          })
 
+    }
 
 
 
@@ -55,7 +67,7 @@ const GroupJoinRequest = () => {
                 
                   <div className='overflow-y-auto h-[367px] scroll-smooth'>
                       {requestList.map((item)=>(
-                           <div className='flex items-center w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
+                        <div className='flex items-center w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
                            <div className='w-[20%]'>
                                <img src={item.senderPhotoURL} className='rounded-full w-[70px] h-[70px]'/>
                            </div>
@@ -64,7 +76,7 @@ const GroupJoinRequest = () => {
                            </div>
                            <div className='flex justify-end w-[15%]'>
                                 <div>
-                                    <button  className='px-[37px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Add</button>
+                                    <button onClick={()=>handleGroupJoin(item)}  className='px-[37px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Add</button>
                                     <button onClick={()=>handleGroupJoinReject(item.joinRequestKey)}  className='px-[29px] py-[5px] bg-red-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Reject</button>
                                 </div>
                                

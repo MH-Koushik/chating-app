@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { requestGroupKey, showGroupCreate, showRequestGroup } from '../slices/creatGroupSlice';
+import { addMemberGroupKey, addMemberGroupName, addMemberGroupShow, groupMemberShow, groupMemberShowKey, requestGroupKey, showGroupCreate, showRequestGroup } from '../slices/creatGroupSlice';
 import { getDatabase, ref, onValue,set, push, remove} from "firebase/database";
 import {SlOptionsVertical} from 'react-icons/sl'
 const MyGroups = () => {
@@ -10,19 +10,53 @@ const MyGroups = () => {
     let dispatch = useDispatch();
     let [myGroupList,setMyGroupList]=useState([]);
 
+    // ---------Memeber check only works on My group list not on group list--------------
+
+    // let [memberGroupList,setMemberGroupList]=useState([]);
+
+    
+    // useEffect(()=>{
+    //     const groupMemberRef = ref(db, 'GroupMember');
+    //     onValue(groupMemberRef, (snapshot) => {
+    //         let membergrouparr=[]
+    //         snapshot.forEach((item)=>{
+    //             if(userdata.uid==item.val().memberID){
+    //                 membergrouparr.push(item.val().groupID);
+    //             }
+    //         })
+    //         setMemberGroupList(membergrouparr);
+    //     });
+    // },[])
+
+    // useEffect(()=>{
+    //     const groupRef = ref(db, 'group');
+    //     onValue(groupRef, (snapshot) => {
+    //         let grouparr=[]
+    //         snapshot.forEach((item)=>{
+    //             if(userdata.uid==item.val().adminId || memberGroupList.includes(item.key)){ 
+    //                 grouparr.push({...item.val(), groupKey: item.key });
+    //             }
+    //         })
+    //         setMyGroupList(grouparr);
+    //     });
+    // },[memberGroupList])
+
+    // ---------Memeber check only works on My group list not on group list--------------
+
+
     useEffect(()=>{
         const groupRef = ref(db, 'group');
         onValue(groupRef, (snapshot) => {
             let grouparr=[]
             snapshot.forEach((item)=>{
-                if(userdata.uid==item.val().adminId){ //for memeber check= || item.val().member.includes(userdata.uid)
+                if(userdata.uid==item.val().adminId ){ 
                     grouparr.push({...item.val(), groupKey: item.key });
                 }
-                
             })
             setMyGroupList(grouparr);
         });
     },[])
+
 
 
     let handleGroupDelete=(e)=>{
@@ -30,11 +64,21 @@ const MyGroups = () => {
     }
 
     let handleJoinRequest=(item)=>{
-        dispatch(showRequestGroup(true))
         dispatch(requestGroupKey(item))
+        dispatch(showRequestGroup(true))
     }
-    
 
+
+    let handleMememberView=(item)=>{
+        dispatch(groupMemberShowKey(item))
+        dispatch(groupMemberShow(true))
+    }
+
+    let handleAddMember=(item)=>{
+        dispatch(addMemberGroupKey(item.groupKey))
+        dispatch(addMemberGroupShow(true))
+        dispatch(addMemberGroupName(item.groupName))
+    }
 
 
 
@@ -65,15 +109,11 @@ const MyGroups = () => {
             </div>
             <div className='flex justify-end w-[30%]'>
                 <div className='text-center'>
-                    <button  className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Add Member</button>
-                    {userdata.uid==item.adminId?
-                    <div> 
-                    <button onClick={()=>handleJoinRequest(item.groupKey)} className='px-[29px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Request</button>
-                    <button onClick={()=>handleGroupDelete(item.groupKey)} className='px-[10px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Delete Group</button>
-                    </div>
-                        :
-                    <button  className='px-[19px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Leave</button>
-                    }
+                    <button onClick={()=>handleMememberView(item.groupKey)} className='px-[16px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Member List</button>
+                    <button onClick={()=>handleAddMember(item)}  className='px-[10px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Add Members</button>
+                    <button onClick={()=>handleJoinRequest(item.groupKey)} className='px-[29px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Requests</button>
+                    <button onClick={()=>handleGroupDelete(item.groupKey)} className='px-[14px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px] mb-[5px]'>Delete Group</button>
+                    
                 </div>
             </div>
         </div> 

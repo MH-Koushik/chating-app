@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { showGroupCreate } from '../slices/creatGroupSlice';
 import { getDatabase, ref, onValue,set, push, remove} from "firebase/database";
-import {SlOptionsVertical} from 'react-icons/sl'
 
 const GroupList = () => {
     let dispatch=useDispatch();
@@ -11,27 +10,41 @@ const GroupList = () => {
     let showCreateGroup = useSelector((state)=>state.creatGroupShow.showCreateGroup);
     let [groupList,setGroupList]=useState([])
     let [groupJoinReqarr,setGroupJoinReqarr]=useState([])
+    let [memberGroupList,setMemberGroupList]=useState([]);
 
     let handleCreatGroup=()=>{
         dispatch(showGroupCreate(true))
     }
+
+    
+    useEffect(()=>{
+        const groupMemberRef = ref(db, 'GroupMember');
+        onValue(groupMemberRef, (snapshot) => {
+            let membergrouparr=[]
+            snapshot.forEach((item)=>{
+                if(userdata.uid==item.val().memberID){
+                    membergrouparr.push(item.val().memberID+item.val().groupID);
+                }
+            })
+            setMemberGroupList(membergrouparr);
+        });
+    },[])
+
 
     useEffect(()=>{
         const groupRef = ref(db, 'group');
         onValue(groupRef, (snapshot) => {
             let grouparr=[]
             snapshot.forEach((item)=>{ 
-                if(userdata.uid!=item.val().adminId){  //for memeber check= || item.val().member.indexOf(userdata.uid)===-1
+                if(userdata.uid!=item.val().adminId){
                     grouparr.push({...item.val(), groupKey: item.key });
                 }
-                
             })
             setGroupList(grouparr);
         });
     },[])
 
     let handleJoinRequest=(item)=>{
-        console.log(item)
         set(push(ref(db, 'GroupJoinRequest')), {
             senderID: userdata.uid,
             senderName: userdata.displayName,
@@ -52,6 +65,19 @@ const GroupList = () => {
             setGroupJoinReqarr(groupJoinarr);
         });
     },[])
+
+    let handlegroupLeave=(item)=>{
+        let removeKey
+        const groupLeaveRef = ref(db, 'GroupMember');
+        onValue(groupLeaveRef, (snapshot) => {
+            snapshot.forEach((itemv)=>{ 
+                if(item==itemv.val().groupID && userdata.uid==itemv.val().memberID){
+                    removeKey=itemv.key
+                }
+            })
+        });
+        remove(ref(db, 'GroupMember/'+removeKey))
+    }
 
 
   return (
@@ -82,6 +108,11 @@ const GroupList = () => {
                 <div className='text-center'>
                     {groupJoinReqarr.includes(userdata.uid+item.groupKey || item.groupKey+userdata.uid)?
                         <button  className='px-[22px] py-[5px] bg-green-600 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>PENDING</button>
+                    :memberGroupList.includes(userdata.uid+item.groupKey || item.groupKey+userdata.uid)?
+                        <div>
+                            <button onClick={()=>handlegroupLeave(item.groupKey )} className='px-[19px] py-[5px] bg-red-500 font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Leave</button>
+                        </div>
+                        
                     :
                         <button  onClick={()=>handleJoinRequest(item)} className='px-[22px] py-[5px] bg-button font-semibold font-Poppins text-[15px] text-white rounded-[5px]'>Join</button>
                     }
