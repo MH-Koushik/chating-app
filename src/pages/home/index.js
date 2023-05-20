@@ -60,7 +60,6 @@ const Home = ()=>{
             <>
               <div className='flex w-full justify-evenly bg-white'>
                 <div className='w-[30%] '>
-                  <Search/>
                   <GroupList/>
                   <FriendRequest/>
                 </div>

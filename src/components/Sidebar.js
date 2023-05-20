@@ -14,18 +14,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import { ThreeCircles } from  'react-loader-spinner'
 import { getDatabase, set,update } from "firebase/database";
 
-const Sidebar = () => {
+const Sidebar = ({Active}) => {
   const storage = getStorage();
   const db = getDatabase();
   const navigate=useNavigate();
   const auth = getAuth();
   const dispatch= useDispatch();
+  let userData=useSelector((state)=>state.userLoginInfo.userInfo);
   
   let[uploadErr, setUploadErr]= useState("");
-
+  
   let [imageUpload,setImageUplaod]=useState(false);
-
-  let userdata=useSelector((state)=>state.userLoginInfo.userInfo)
 
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState("#");
@@ -118,7 +117,7 @@ useEffect(()=>{
 
   }
 
-  let userData=useSelector((state)=>state.userLoginInfo.userInfo);
+  
 
   return (
   <>
@@ -136,7 +135,7 @@ useEffect(()=>{
       <div className='mt-[38px] '>
 
         <div className='group w-[100px] h-[100px] mx-auto relative rounded-full'>
-          <img src={userData.photoURL} className='rounded-full w-full h-full'/>
+          <img src={userData.photoURL?userData.photoURL:"./images/defaultProPic.png"} className='rounded-full w-full h-full' loading='lazy'/>
           <div onClick={()=>setImageUplaod(true)} className='w-full h-full absolute top-0 left-0 bg-black/[.40] rounded-full flex justify-center items-center  opacity-0 group-hover:opacity-100 cursor-pointer'><FaCloudUploadAlt className=' text-center text-white text-2xl'/></div>
         </div>
         <div className='w-full text-center'><p className='mt-1 text-nunito text-xl font-regular text-white'>{userData.displayName}</p></div>

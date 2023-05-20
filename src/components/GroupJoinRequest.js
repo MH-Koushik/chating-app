@@ -32,9 +32,11 @@ const GroupJoinRequest = () => {
         dispatch(showRequestGroup(false))
         dispatch(requestGroupKey(false))
     }
+
     let handleGroupJoinReject=(item)=>{
         remove(ref(db, 'GroupJoinRequest/'+item))
     }
+    
     let handleGroupJoin=(item)=>{
         set(push(ref(db, 'GroupMember')), {
             groupID: item.groupID,

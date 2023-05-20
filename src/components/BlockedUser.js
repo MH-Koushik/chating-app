@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import {FiSearch} from 'react-icons/fi'
 import { getDatabase, ref, onValue,set, push, remove} from "firebase/database";
 import { useSelector } from 'react-redux';
 import {SlOptionsVertical} from 'react-icons/sl'
@@ -28,7 +29,22 @@ const BlockedUser = () => {
         remove(ref(db, 'block/'+item));
     }
 
-
+    let[userSearchList, setUserSearchList]=useState([])
+    let handleSearch=(e)=>{
+        console.log(e.target.value)
+        let arr=[]
+        if(e.target.value.length==0){
+            setUserSearchList([])
+        }else{
+            blockList.map((item)=>{
+                if(item.username.toLowerCase().includes(e.target.value.toLowerCase())){
+                    arr.push(item)
+                }
+            })
+            setUserSearchList(arr)
+        }
+    }
+    
 
 
 
@@ -40,8 +56,13 @@ const BlockedUser = () => {
 
   return (
     <div className=' relative mt-[15px] w-full h-[447px] px-5 py-3.5 bg-white rounded-[20px] drop-shadow-lg '>
-        <p className='font-Poppins font-semibold text-xl mb-4'>Blocked Users</p>
-        <SlOptionsVertical className='absolute top-[20px] right-[20px] text-[19px] text-button cursor-pointer'/>
+        <div className='flex w-full mb-4'>
+            <p className='w-2/5 font-Poppins font-semibold text-xl mt-3 '>Blocked Users</p>
+            <div className='w-3/5  relative'>
+                <input onChange={handleSearch} type='text' placeholder='Search' className='  w-[100px]] h-[49px] px-12 py-4 drop-shadow-lg outline-0  rounded-[20px]'/>
+                <FiSearch className='absolute top-[16px] left-[15px] text-[19px]'/>
+            </div>
+        </div>
 
         <div className='overflow-y-auto h-[368px] scroll-smooth last:border-0'>  
             {blockList.length==0?
