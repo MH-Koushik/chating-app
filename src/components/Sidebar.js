@@ -3,7 +3,7 @@ import {AiOutlineHome} from 'react-icons/ai'
 import {FiSettings,FiLogOut} from 'react-icons/fi'
 import {FaCloudUploadAlt} from 'react-icons/fa'
 import {BsChatDotsFill,BsBell} from 'react-icons/bs'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, signOut,updateProfile,onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoginInfo } from '../slices/userSlice'
@@ -140,10 +140,11 @@ useEffect(()=>{
         </div>
         <div className='w-full text-center'><p className='mt-1 text-nunito text-xl font-regular text-white'>{userData.displayName}</p></div>
 
-        <div className="relative z-[1] after:z-[-1] after:absolute after:content-[''] after:top-[-19px] after:left-[20px] after:rounded-l-[20px] after:bg-white after:w-full    after:h-[89px] before:h-[89px] before:absolute before:top-[-19px] before:right-0 before:bg-button before:w-[8px] before:content-[''] before:rounded-l-[20px] before:drop-shadow-lg"><AiOutlineHome className='text-[#5F35F5] mt-[78px] text-[46px] mx-auto'/></div>
+        <div className={`relative z-[1]  after:z-[-1] after:absolute after:content-[''] after:top-[-19px] after:left-[20px] after:rounded-l-[20px] after:bg-transparent ${Active=="home"&& "after:bg-[#FFFFFF]"} after:w-full    after:h-[89px] before:h-[89px] before:absolute before:top-[-19px] before:right-0 before:bg-button before:w-[8px] before:content-[''] before:rounded-l-[20px] before:drop-shadow-lg`}><Link to={"/"}><AiOutlineHome className={`${ Active=="home"? "text-[#5F35F5]":"text-[#BAD1FF]"} mt-[78px] text-[46px] mx-auto`}/></Link></div>
 
-        <div className="relative z-[1] after:z-[-1] after:absolute after:content-[''] after:top-[-19px] after:left-[20px] after:rounded-l-[20px] after:bg-none  after:w-full    after:h-[89px] before:h-[89px] before:absolute before:top-[-19px] before:right-0 before:bg-button before:w-[8px] before:content-[''] before:rounded-l-[20px] before:drop-shadow-lg"><BsChatDotsFill onClick={handlechatpage} className='text-[#BAD1FF] mt-[78px] text-[46px] mx-auto'/></div>
+        <div className={`relative z-[1] ${Active=="msg"&& "after:bg-[#FFFFFF]"} after:z-[-1] after:absolute after:content-[''] after:top-[-19px] after:left-[20px] after:rounded-l-[20px] after:bg-none  after:w-full    after:h-[89px] before:h-[89px] before:absolute before:top-[-19px] before:right-0 before:bg-button before:w-[8px] before:content-[''] before:rounded-l-[20px] before:drop-shadow-lg`}><Link to={"/chatPage"}><BsChatDotsFill onClick={handlechatpage} className={`mt-[78px] text-[46px] mx-auto ${Active=="msg"? "text-[#5F35F5]":"text-[#BAD1FF]"}`}/></Link></div>
 
+        {/* use Backtick {` `} and put the css codes into it to put turnery condition in css codes*/}
         <div className="relative z-[1] after:z-[-1] after:absolute after:content-[''] after:top-[-19px] after:left-[20px] after:rounded-l-[20px] after:bg-none  after:w-full    after:h-[89px] before:h-[89px] before:absolute before:top-[-19px] before:right-0 before:bg-button before:w-[8px] before:content-[''] before:rounded-l-[20px] before:drop-shadow-lg"><BsBell className='text-[#BAD1FF] mt-[78px] text-[46px] mx-auto'/></div>
 
         <div className="relative z-[1] after:z-[-1] after:absolute after:content-[''] after:top-[-19px] after:left-[20px] after:rounded-l-[20px] after:bg-none  after:w-full    after:h-[89px] before:h-[89px] before:absolute before:top-[-19px] before:right-0 before:bg-button before:w-[8px] before:content-[''] before:rounded-l-[20px] before:drop-shadow-lg"><FiSettings className='text-[#BAD1FF] mt-[78px] text-[46px] mx-auto'/></div>

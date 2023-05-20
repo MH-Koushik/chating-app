@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -15,61 +16,36 @@ import { userLoginInfo } from '../../slices/userSlice';
 import GroupJoinRequest from '../../components/GroupJoinRequest';
 import GroupMemberView from '../../components/GroupMemberView';
 import AddGroupMember from '../../components/AddGroupMember';
+const ChatPage = () => {
+    const auth = getAuth();
+    const dispatch=useDispatch();
+    const navigate = useNavigate();
+    let[verified,setVerified]=useState(true)
+    let data = useSelector((state)=>state.userLoginInfo.userInfo)
 
-const Home = ()=>{
-  const auth = getAuth();
-  const dispatch=useDispatch();
-  const navigate = useNavigate();
-  let[verified,setVerified]=useState(true)
-  
-  onAuthStateChanged(auth, (data)=>{
-    if(!data.emailVerified){
-      setVerified(false)
-    }
-    dispatch(userLoginInfo(data))
-    localStorage.setItem("userInfo", JSON.stringify(data))
-  })
 
-  let showCreateGroup= useSelector((state)=>state.creatGroupShow.showCreateGroup)
-  let showJoinGroupRequest= useSelector((state)=>state.creatGroupShow.showGroupJoinRequest)
-  
-  let showGroupMemberView= useSelector((state)=>state.creatGroupShow.showGroupMember)
-  let showAddGroupMember= useSelector((state)=>state.creatGroupShow.addMembershow)
-  
-  
-  let data = useSelector((state)=>state.userLoginInfo.userInfo)
-  useEffect(()=>{
-    if(!data){
-      navigate("/login")
-    }
-  },[])
+
+
+
+
 
   return (
     <>
     {data&&
         <div className='flex w-full'>
-          <Sidebar Active="home"/>
-          
-          {showCreateGroup && <CreateGroup/>}
-          {showJoinGroupRequest && <GroupJoinRequest/>}
-          {showGroupMemberView && <GroupMemberView/>}
-          {showAddGroupMember && <AddGroupMember/>}
-
-
+          <Sidebar Active="msg"/>
           {verified?
             <>
               <div className='flex w-full justify-evenly bg-white'>
                 <div className='w-[30%] '>
-                  <GroupList/>
-                  <FriendRequest/>
+                    <GroupList/>
+                    <Friend/>
                 </div>
                 <div className='w-[30%] '>
-                  <Friend/>
-                  <MyGroups/>
+
                 </div>
                 <div className='w-[30%] '>
-                  <UserList/>
-                  <BlockedUser/>
+
                 </div>
               </div>
               </>
@@ -79,19 +55,21 @@ const Home = ()=>{
               </div> }
         </div>
 
-
-
-
-
-
-
-
-
-
-
       }
-    </>
+      </>
+
+
+
+
+
+
+
+
+
+
+
+
   )
 }
 
-export default Home
+export default ChatPage

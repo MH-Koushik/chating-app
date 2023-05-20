@@ -12,6 +12,7 @@ import Home from './pages/home';
 import ForgotPassword from './pages/forgotpassword';
 import store from './store'
 import { Provider } from 'react-redux'
+import ChatPage from './pages/chatPage';
 
   const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ import { Provider } from 'react-redux'
     {
       path: "/forgotpassword" ,
       element: <ForgotPassword/>,
+    },
+    {
+      path: "/chatPage" ,
+      element: <ChatPage/>,
     },
   ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
