@@ -37,7 +37,7 @@ const BlockedUser = () => {
             setUserSearchList([])
         }else{
             blockList.map((item)=>{
-                if(item.username.toLowerCase().includes(e.target.value.toLowerCase())){
+                if(item.blockName.toLowerCase().includes(e.target.value.toLowerCase())){
                     arr.push(item)
                 }
             })
@@ -65,7 +65,24 @@ const BlockedUser = () => {
         </div>
 
         <div className='overflow-y-auto h-[368px] scroll-smooth last:border-0'>  
-            {blockList.length==0?
+        {userSearchList.length>0?
+            userSearchList.map((item)=>(
+                <div className='flex items-center gap-x-3.5 w-[95%] pb-3.5 border-b border-black/[0.25] mb-3.5'>
+                <div className='w-[20%]'>
+                    <img src={item.blockPhoto} className='rounded-full w-[70px] h-[70px]'/>
+                </div>
+                <div className='w-[50%]'>
+                    <h3 className='font-Poppins font-semibold text-lg'>{item.blockName}</h3>
+                    <p className='font-Poppins font-semibold font-medium text-ptag/[0.75] text-sm'>{item.blockMail}</p>
+                </div>
+                <div className='flex justify-end w-[30%]'>
+                    <button onClick={()=>handleUnBlock(item.blockKey)} className='px-[9px] py-[5px] bg-button font-semibold font-Poppins text-[20px] text-white rounded-[5px]'>UnBlock</button> 
+                </div>
+            </div> 
+           ))
+        :
+            (
+                blockList.length==0?
                 <div className='h-full flex justify-center items-center'>
                     <div>
                         <h3 className='font-Poppins font-semibold text-2xl'>No Blocked User Exist</h3>
@@ -85,7 +102,9 @@ const BlockedUser = () => {
                      <button onClick={()=>handleUnBlock(item.blockKey)} className='px-[9px] py-[5px] bg-button font-semibold font-Poppins text-[20px] text-white rounded-[5px]'>UnBlock</button> 
                  </div>
              </div> 
-            )))}     
+            )))
+            )
+        }   
            
         </div>
 
