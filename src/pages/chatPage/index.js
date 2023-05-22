@@ -16,6 +16,8 @@ import { userLoginInfo } from '../../slices/userSlice';
 import GroupJoinRequest from '../../components/GroupJoinRequest';
 import GroupMemberView from '../../components/GroupMemberView';
 import AddGroupMember from '../../components/AddGroupMember';
+import FriendChat from '../../components/FriendChat';
+import ChatGroup from '../../components/ChatGroup';
 const ChatPage = () => {
     const auth = getAuth();
     const dispatch=useDispatch();
@@ -38,8 +40,8 @@ const ChatPage = () => {
             <>
               <div className='flex w-full justify-evenly bg-white'>
                 <div className='w-[30%] '>
-                    <GroupList/>
-                    <Friend/>
+                    <ChatGroup/>
+                    <FriendChat/>
                 </div>
                 <div className='w-[30%] '>
 
